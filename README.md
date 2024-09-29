@@ -1,7 +1,8 @@
 # User guide
 
-step1: download docker images
+step1: docker images
 ```{.cs}
+
 docker pull fanyucai1/meta
 docker tag fanyucai1/meta meta
 ```
@@ -42,5 +43,3 @@ docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/check
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm 
 
 ```
-
-docker run -v /staging/fanyucai/metagenomics/ref/CAT_pack/20240422_CAT_nr:/ref/ meta sh -c 'cp /ref/diamond /bin/ && diamond'

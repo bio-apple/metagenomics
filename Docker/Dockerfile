@@ -7,9 +7,12 @@ RUN apk add --no-cache bash && mkdir -p /lib64/ /ref/ /script/ /raw_data/ /outdi
     bash /opt/Miniforge3-Linux-x86_64.sh -f -b -p /opt/conda/ && rm -rf /opt/Miniforge3-Linux-x86_64.sh /var/cache/apk/* && \
     /opt/conda/bin/mamba create --name rgi --channel conda-forge --channel bioconda --channel defaults rgi &&  \
     /opt/conda/bin/conda config --add channels ursky && \
-    /opt/conda/bin/mamba create -y --name metawrap --channel ursky --channel conda-forge --channel bioconda --channel defaults blas=2.5=mkl biopython metawrap-mg=1.3.2 checkm-genome && \
+    /opt/conda/bin/mamba create -y --name metawrap --channel ursky  \
+    --channel conda-forge --channel bioconda --channel defaults blas=2.5=mkl biopython metawrap-mg=1.3.2 checkm-genome && \
     /opt/conda/bin/mamba create --name gtdbtk --channel conda-forge --channel bioconda --channel defaults gtdbtk && \
     /opt/conda/bin/mamba create --name metaphlan --channel conda-forge --channel bioconda --channel defaults metaphlan && \
-    /opt/conda/bin/mamba run -n rgi mamba install --channel conda-forge --channel bioconda --channel defaults staramr quast minimap2 megahit cd-hit spades freebayes fastqtk seqtk bbmap fastp fastqc prinseq cutadapt multiqc trimmomatic bcftools prokka covtobed fastani megan kraken2 krakentools krona bracken drep coverm &&  \
+    /opt/conda/bin/mamba run -n rgi mamba install --channel conda-forge --channel bioconda --channel defaults staramr  \
+    quast minimap2 megahit cd-hit spades freebayes fastqtk seqtk bbmap fastp fastqc prinseq cutadapt multiqc trimmomatic  \
+    bcftools prokka covtobed fastani megan kraken2 krakentools krona bracken drep coverm &&  \
     /opt/conda/bin/conda clean -a -y && /opt/conda/bin/mamba clean -a -y
 ENV LD_LIBRARY_PATH=/lib/:/lib64/:$LD_LIBRARY_PATH
