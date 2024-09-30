@@ -27,7 +27,7 @@ cmd=(f"docker run -v {in_dir}:/raw_data/ -v {args.outdir}:/outdir/ {docker} "
      f"sh -c \'export PATH=/opt/conda/envs/rgi/bin/:$PATH && "
      f"metaspades.py --only-assembler --memory 500 "
      f"--threads 48 -1 /raw_data/{a} -2 /raw_data/{b} -o /outdir/spades_{args.prefix}/")
-cmd+=(f" && quast.py --threads 36 --plots-format png --min-contig 500 --no-html --no-icarus "
+cmd+=(f" && quast.py --plots-format png --min-contig 500 --no-html --no-icarus "
       f"--output-dir /outdir/spades_{args.prefix}/ /outdir/spades_{args.prefix}/scaffolds.fasta\'")
 print(cmd)
 subprocess.check_call(cmd,shell=True)
