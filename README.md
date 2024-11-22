@@ -1,10 +1,9 @@
 # User guide
 
-step1: docker images
+step1: build your own local Docker image based on the image file.
 ```{.cs}
-
-docker pull fanyucai1/meta
-docker tag fanyucai1/meta meta
+cd Docker
+docker build -t meta ./
 ```
 
 step2: Download database
@@ -41,5 +40,4 @@ docker run -v /staging/fanyucai/metagenomics/ref/:/ref/ meta staramr db build --
 ################CheckM2_database
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm2 database --download --path /ref/
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm 
-
 ```
