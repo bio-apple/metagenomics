@@ -34,7 +34,7 @@ def run(pe1,outdir,prefix,pe2=None):
     subprocess.check_call(cmd, shell=True)
     out=outdir+'/'+prefix
     outfile = open("%s.fastp.tsv" % (out), "w")
-    outfile.write("SampleID\tRaw_reads\tTotal_bases\tQ20_rate\tQ30_rate\tgc_content\tClean_reads\tTotal_bases\tQ20_rate\tQ30_rate\tgc_content\n")
+    outfile.write("SampleID\tTotal_reads(Raw)\tTotal_bases(Raw)\tQ20_rate(Raw)\tQ30_rate(Raw)\tGC_content(Raw)\tTotal_reads(clean)\tTotal_bases(clean)\tQ20_rate(clean)\tQ30_rate(clean)\tGC_content(clean)\n")
     with open("%s.fastp.json"%out, "r") as load_f:
         load_dict = json.load(load_f)
         outfile.write("%s\t" % (prefix))

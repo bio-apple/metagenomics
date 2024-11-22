@@ -18,9 +18,14 @@ args.outdir=os.path.abspath(args.outdir)
 args.protein=os.path.abspath(args.protein)
 args.vfdb=os.path.abspath(args.vfdb)
 db=""
-for i in os.listdir(os.path.dirname(args.vfdb)):
-    if i.endswith(".pdb"):
-        db = i.split(".pdb")[0]
+if os.path.isfile(args.vfdb):
+    for i in os.listdir(os.path.dirname(args.vfdb)):
+        if i.endswith(".pdb"):
+            db = i.split(".pdb")[0]
+if os.path.isdir(args.vfdb):
+    for i in os.listdir(args.vfdb):
+        if i.endswith(".pdb"):
+            db = i.split(".pdb")[0]
 print(db)
 cmd=(f"docker run -v {args.outdir}:/outdir/ "
      f"-v {os.path.dirname(args.protein)}:/raw_data "

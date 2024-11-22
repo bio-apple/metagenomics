@@ -42,13 +42,14 @@ cmd=(f"docker run -v {os.path.dirname(args.fasta)}:/ref/ "
      f"--universal --run-checkm --metabat2 --maxbin2 --concoct /raw_data/{R1} /raw_data/{R2} \'")
 print(cmd)
 subprocess.check_call(cmd,shell=True)
+
 for i in ['maxbin2','metabat2','concoct']:
      infile=open(f'{args.outdir}/{args.prefix}_initial_binning/{i}_bins.stats',"r")
      for line in infile:
           line=line.strip()
           array=line.split('\t')
           if not re.search(r'completeness',line):
-               if float(array[1])>50 and float(array[2])<10:
+               if float(array[1])>=90 and float(array[2])<=5:
                     refinement=1
                     break
      infile.close()
@@ -63,20 +64,19 @@ if refinement==1:
           f"-A /outdir/{args.prefix}_initial_binning/metabat2_bins/ "
           f"-B /outdir/{args.prefix}_initial_binning/maxbin2_bins/ "
           f"-C /outdir/{args.prefix}_initial_binning/concoct_bins/ "
-          f"-c 50 -x 10\'")
+          f"-c 90 -x 5\'")
      print(cmd)
      subprocess.check_call(cmd,shell=True)
-
      # step3:bin-reassembled
      if os.path.exists(f'{args.outdir}/{args.prefix}_bin_reassembly'):
-          subprocess.check_call(f'rm -rf {args.outdir}/{args.prefix}_bin_refinement', shell=True)
+          subprocess.check_call(f'rm -rf {args.outdir}/{args.prefix}_bin_reassembly', shell=True)
      cmd=(f"docker run -v {args.outdir}:/outdir -v {os.path.dirname(args.pe1)}:/raw_data/ "
           f"-v {args.checkm1}:/srv/whitlam/bio/db/checkm_data/1.0.0 {docker} "
           f"sh -c \'export PATH=/opt/conda/envs/metawrap/bin:$PATH && "
           f"metawrap reassemble_bins -o /outdir/{args.prefix}_bin_reassembly "
           f"-1 /raw_data/{R1} -2 /raw_data/{R2} "
-          f"-t 48 -m 256 -c 50 -x 10 "
-          f"-b /outdir/{args.prefix}_bin_refinement/metawrap_50_10_bins \'")
+          f"-t 48 -m 256 -c 90 -x 5 "
+          f"-b /outdir/{args.prefix}_bin_refinement/metawrap_90_5_bins \'")
      print(cmd)
      subprocess.check_call(cmd,shell=True)
 
@@ -88,7 +88,7 @@ if refinement==1:
      cmd=(f"docker run -v {args.outdir}:/outdir {docker} "
           f"sh -c \'export PATH=/opt/conda/envs/rgi/bin:$PATH && "
           f"dRep dereplicate "
-          f"-g /outdir/{args.prefix}_bin_reassembly/reassembled_bins/*fa -p 48 -comp 50 -con 10 "
+          f"-g /outdir/{args.prefix}_bin_reassembly/reassembled_bins/*fa -p 48 -comp 90 -con 5 "
           f"/outdir/{args.prefix}_dereplicated\'")
      print(cmd)
      if os.path.exists(f"/outdir/{args.prefix}_dereplicated/"):
