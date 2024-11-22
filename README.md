@@ -41,3 +41,7 @@ docker run -v /staging/fanyucai/metagenomics/ref/:/ref/ meta staramr db build --
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm2 database --download --path /ref/
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm 
 ```
+
+# Flowchart
+
+![Data Analysis](./Data_Analysis_Flowchart.png)
