@@ -44,4 +44,4 @@ docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/check
 
 # Flowchart
 
-![Data Analysis](./Data_Analysis_Flowchart.png)
+![Data Analysis](./infos.png)

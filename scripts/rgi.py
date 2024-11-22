@@ -33,9 +33,9 @@ def run_reads(pe1,outdir,index,prefix,pe2=None):
             print("Sample pe1 and pe2 reads must be in the same directory.")
             exit(1)
         else:
-            cmd+=" && rgi bwt --read_one /raw_data/%s --read_two /raw_data/%s --output_file /outdir/%s --local --include_other_models -n 48\'"%(a,b,prefix)
+            cmd+=" && rgi bwt --read_one /raw_data/%s --read_two /raw_data/%s --output_file /outdir/%s --local --include_other_models -n 48 --clean\'"%(a,b,prefix)
     else:
-        cmd += " && rgi bwt --read_one /raw_data/%s --output_file /outdir/%s --local --include_other_models -n 48\'" % (a, prefix)
+        cmd += " && rgi bwt --read_one /raw_data/%s --output_file /outdir/%s --local --include_other_models -n 48 --clean\'" % (a, prefix)
     print(cmd)
     subprocess.check_call(cmd, shell=True)
 
