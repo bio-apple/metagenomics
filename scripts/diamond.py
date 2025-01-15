@@ -48,7 +48,7 @@ def run(R1,R2,prefix,outdir,db,top):
         array=line.split("\t")
         tmp=array[-4]+";"+array[-1]
         # bitscore  Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
-        if float(array[2]) >= 90 and float(array[-6]) >= 80 and not re.search("N/A",array[-4]) and not re.search("N/A",array[-1]):
+        if not re.search("N/A",array[-1]) and not re.search("0",array[-4]) and float(array[2])>=80 and float(array[-6])>=80:
             reads[array[0]]=tmp
         if not array[0] in tax:
             tax[array[0]] = tmp
@@ -65,16 +65,18 @@ def run(R1,R2,prefix,outdir,db,top):
     sorted_dict = dict(sorted(species.items(), key=lambda item: item[1], reverse=True))
     virus,other=3,10
     outfile=open(f"{outdir}/{prefix}.stat.tsv","w")
-    outfile.write(f"#Species\tRaw_Counts\tNormalize_Counts\tPercentage(%)\n")
+    outfile.write(f"#Species\tRaw_Counts\tPercentage(%)\n")
     for key in sorted_dict:
-        top=top-1
-        if top>=0:
-            threshold=int(float(sorted_dict[key])*1000000/total_reads)
-            if re.search('Viruses',key) and threshold>=virus:
-                outfile.write(f"{key}\t{sorted_dict[key]}\t{threshold}\t{float(sorted_dict[key])/total_reads*100}\n")
-            else:
-                if threshold >= other:
-                    outfile.write(f"{key}\t{sorted_dict[key]}\t{threshold}\t{float(sorted_dict[key]) / total_reads * 100}\n")
+        counts=float(sorted_dict[key])
+        percent = float(sorted_dict[key])*100 / total_reads
+        if re.search('Viruses', key) and counts >= 3:
+            outfile.write(f"{key}\t{counts}\t{percent}\n")
+        elif re.search('Bacteria', key) and counts >=10:
+            outfile.write(f"{key}\t{counts}\t{percent}\n")
+        else:
+            top = top - 1
+            if top>=0 and counts >= other:
+                outfile.write(f"{key}\t{counts}\t{percent}\n")
     outfile.close()
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("")
