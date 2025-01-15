@@ -38,7 +38,7 @@ def run(R1,R2,prefix,outdir,db,top):
             total_reads = sum(1 for i, line in enumerate(f) if i % 4 == 0)
     cmd+=f" --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore staxids sskingdoms skingdoms sphylums sscinames\'"
     print(cmd)
-    #subprocess.check_call(cmd, shell=True)
+    subprocess.check_call(cmd, shell=True)
     if os.path.exists(f"{outdir}/{prefix}.merge.fastq"):
         subprocess.check_call(f'rm -rf {outdir}/{prefix}.merge.fastq', shell=True)
     infile=open(f"{outdir}/{prefix}.tsv","r")
