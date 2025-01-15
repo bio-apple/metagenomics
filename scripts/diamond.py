@@ -16,7 +16,7 @@ def run(R1,R2,prefix,outdir,db,top):
     # evalue=1e-10
     # Treiber M L, Taft D H, Korf I, et al. Pre-and post-sequencing recommendations for functional annotation of human fecal metagenomes[J]. BMC bioinformatics, 2020, 21: 1-15.
     cmd = (f"docker run -v {outdir}:/outdir/ -v {os.path.dirname(db)}:/ref/ -v {os.path.dirname(R1)}:/raw_data/ {docker} sh -c \'"
-           f"/opt/conda/bin/diamond blastx --include-lineage --fast --threads 48 --evalue 0.0000000001 --max-target-seqs 5 "
+           f"/opt/conda/bin/diamond blastx --include-lineage --threads 48 --faster --evalue 0.0000000001 --max-target-seqs 5 "
            f"--db /ref/{db_name} --out /outdir/{prefix}.tsv")
     if not R2==None:
         R2=os.path.abspath(R2)
@@ -34,31 +34,33 @@ def run(R1,R2,prefix,outdir,db,top):
         cmd+=f" -q /outdir/{prefix}.merge.fastq"
     else:
         cmd += f" -q /raw_data/{a}"
-        with open(f"{outdir}/{a}", 'r') as f:
+        with open(f"{R1}", 'r') as f:
             total_reads = sum(1 for i, line in enumerate(f) if i % 4 == 0)
     cmd+=f" --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore staxids sskingdoms skingdoms sphylums sscinames\'"
     print(cmd)
     subprocess.check_call(cmd, shell=True)
-    subprocess.check_call(f"rm -rf {outdir}/{prefix}.merge.fastq", shell=True)
+    if os.path.exists(f"{outdir}/{prefix}.merge.fastq"):
+        subprocess.check_call(f'rm -rf {outdir}/{prefix}.merge.fastq', shell=True)
     infile=open(f"{outdir}/{prefix}.tsv","r")
-    tax={}
+    tax,reads,species={},{},{}
     for line in infile:
-        array=line.strip().split("\t")
+        line=line.strip()
+        array=line.split("\t")
         tmp=array[-4]+";"+array[-1]
-        if re.search("N/A",line.strip()) and float(array[2])>=95 and float(array[-6])>=90:#bitscore >90 #Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
-            if array[0] not in tax:
-                tax[array[0]]=tmp
-            else:
-                if tmp !=tax[array[0]]:
-                    tax[array[0]]="F"
+        if float(array[2]) >= 90 and float(array[-6]) >= 80 and not re.search("N/A",array[-4]) and not re.search("N/A",array[-1]):#bitscore  Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
+            reads[array[0]]=tmp
+        if not array[0] in tax:
+            tax[array[0]] = tmp
+        else:
+            if tax[array[0]] != tmp:
+                    tax[array[0]] = "F"
     infile.close()
-    species={}
-    for key in tax:
-        if tax[key]!="F":
-            if not tax[key] in species:
-                species[tax[key]] = 1
+    for key in reads:
+        if tax[key] != "F":
+            if reads[key] in species:
+                species[reads[key]]+=1
             else:
-                species[tax[key]]+=1
+                species[reads[key]] = 1
     sorted_dict = dict(sorted(species.items(), key=lambda item: item[1], reverse=True))
     Num,virus,other=0,3,10
     outfile=open(f"{outdir}/{prefix}.stat.tsv","w")
