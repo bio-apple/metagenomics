@@ -6,6 +6,7 @@ docker="meta:latest"
 
 def run(R1,R2,prefix,outdir,db,top):
     R1=os.path.abspath(R1)
+    a=R1.split("/")[-1]
     db=os.path.abspath(db)
     outdir = os.path.abspath(outdir)
     total_reads=0
@@ -19,17 +20,21 @@ def run(R1,R2,prefix,outdir,db,top):
            f"--db /ref/{db_name} --out /outdir/{prefix}.tsv")
     if not R2==None:
         R2=os.path.abspath(R2)
-        if R2.endswith(".gz") and R1.endswith(".gz"):
-            subprocess.check_call(f"zcat {R1} {R2} >{outdir}/{prefix}.merge.fastq",shell=True)
+        if os.path.dirname(R2)!=os.path.dirname(R1):
+            print("R1 and R2 paths differ")
+            exit(1)
         else:
-            subprocess.check_call(f"cat {R1} {R2} >{outdir}/{prefix}.merge.fastq",shell=True)
+            b=R2.split("/")[-1]
+            subprocess.check_call(f"docker run -v {os.path.dirname(R1)}:/raw_data/ {docker} sh -c \'"
+                                  f"/opt/conda/bin/pear -f /raw_data/{a} -r /raw_data/{b} -o /raw_data/{prefix} --threads 24\'", shell=True)
+            subprocess.check_call(f'cat {outdir}/{prefix}.assembled.fastq {outdir}/{prefix}.unassembled.forward.fastq {outdir}/{prefix}.unassembled.reverse.fastq >{outdir}/{prefix}.merge.fastq && '
+                                  f'rm -rf {outdir}/{prefix}.assembled.fastq {outdir}/{prefix}.discarded.fastq {outdir}/{prefix}.unassembled.forward.fastq {outdir}/{prefix}.unassembled.reverse.fastq',shell=True)
         with open(f"{outdir}/{prefix}.merge.fastq", 'r') as f:
             total_reads = sum(1 for i, line in enumerate(f) if i % 4 == 0)
         cmd+=f" -q /outdir/{prefix}.merge.fastq"
     else:
-        file=R1.split("/")[-1]
-        cmd += f" -q /raw_data/{file}"
-        with open(f"{outdir}/{prefix}.merge.fastq", 'r') as f:
+        cmd += f" -q /raw_data/{a}"
+        with open(f"{outdir}/{a}", 'r') as f:
             total_reads = sum(1 for i, line in enumerate(f) if i % 4 == 0)
     cmd+=f" --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore staxids sskingdoms skingdoms sphylums sscinames\'"
     print(cmd)
@@ -40,7 +45,7 @@ def run(R1,R2,prefix,outdir,db,top):
     for line in infile:
         array=line.strip().split("\t")
         tmp=array[-4]+";"+array[-1]
-        if array[-1]!="N/A" and float(array[2])>=90 and float(array[-6])>=90:#bitscore >90 #Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
+        if re.search("N/A",line.strip()) and float(array[2])>=95 and float(array[-6])>=90:#bitscore >90 #Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
             if array[0] not in tax:
                 tax[array[0]]=tmp
             else:
@@ -56,9 +61,6 @@ def run(R1,R2,prefix,outdir,db,top):
                 species[tax[key]]+=1
     sorted_dict = dict(sorted(species.items(), key=lambda item: item[1], reverse=True))
     Num,virus,other=0,3,10
-    if not R2==None:
-        virus=6
-        other=20
     outfile=open(f"{outdir}/{prefix}.stat.tsv","w")
     outfile.write(f"#Species\tRaw_Counts\tNormalize_Counts\tPercentage(%)\n")
     for key in sorted_dict:
