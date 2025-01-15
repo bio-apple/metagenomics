@@ -62,12 +62,12 @@ def run(R1,R2,prefix,outdir,db,top):
             else:
                 species[reads[key]] = 1
     sorted_dict = dict(sorted(species.items(), key=lambda item: item[1], reverse=True))
-    Num,virus,other=0,3,10
+    virus,other=3,10
     outfile=open(f"{outdir}/{prefix}.stat.tsv","w")
     outfile.write(f"#Species\tRaw_Counts\tNormalize_Counts\tPercentage(%)\n")
     for key in sorted_dict:
-        Num+=1
-        if Num <=top:
+        top=top-1
+        if top>=0:
             threshold=int(float(sorted_dict[key])*1000000/total_reads)
             if re.search('Viruses',key) and threshold>=virus:
                 outfile.write(f"{key}\t{sorted_dict[key]}\t{threshold}\t{float(sorted_dict[key])/total_reads*100}\n")
