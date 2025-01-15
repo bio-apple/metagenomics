@@ -38,7 +38,7 @@ def run(R1,R2,prefix,outdir,db,top):
             total_reads = sum(1 for i, line in enumerate(f) if i % 4 == 0)
     cmd+=f" --outfmt 6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore staxids sskingdoms skingdoms sphylums sscinames\'"
     print(cmd)
-    subprocess.check_call(cmd, shell=True)
+    #subprocess.check_call(cmd, shell=True)
     if os.path.exists(f"{outdir}/{prefix}.merge.fastq"):
         subprocess.check_call(f'rm -rf {outdir}/{prefix}.merge.fastq', shell=True)
     infile=open(f"{outdir}/{prefix}.tsv","r")
@@ -71,7 +71,9 @@ def run(R1,R2,prefix,outdir,db,top):
         percent = float(sorted_dict[key])*100 / total_reads
         if re.search('Viruses', key) and counts >= 3:
             outfile.write(f"{key}\t{counts}\t{percent}\n")
-        elif re.search('Bacteria', key) and counts >=10:
+        elif re.search('Bacteria|Archaea', key) and counts >=10:
+            outfile.write(f"{key}\t{counts}\t{percent}\n")
+        elif percent>0.1:
             outfile.write(f"{key}\t{counts}\t{percent}\n")
         else:
             top = top - 1
@@ -85,6 +87,6 @@ if __name__ == '__main__':
     parser.add_argument("-p","--prefix",help="prefix of output",required=True)
     parser.add_argument("-o","--outdir",help="output directory",required=True)
     parser.add_argument("-d","--db",help="diamond database file,**.dmnd",required=True)
-    parser.add_argument("-t","--top",help="Output the top species,defalut 30",default=30,type=int)
+    parser.add_argument("-t","--top",help="Output the top species,defalut 10",default=10,type=int)
     args = parser.parse_args()
     run(args.pe1,args.pe2,args.prefix,args.outdir,args.db,args.top)
