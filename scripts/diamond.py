@@ -47,7 +47,8 @@ def run(R1,R2,prefix,outdir,db,top):
         line=line.strip()
         array=line.split("\t")
         tmp=array[-4]+";"+array[-1]
-        if float(array[2]) >= 90 and float(array[-6]) >= 80 and not re.search("N/A",array[-4]) and not re.search("N/A",array[-1]):#bitscore  Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
+        # bitscore  Giolai M, Verweij W, Martin S, et al. Measuring air metagenomic diversity in an agricultural ecosystem[J]. Current Biology, 2024, 34(16): 3778-3791. e4.
+        if float(array[2]) >= 90 and float(array[-6]) >= 80 and not re.search("N/A",array[-4]) and not re.search("N/A",array[-1]):
             reads[array[0]]=tmp
         if not array[0] in tax:
             tax[array[0]] = tmp
