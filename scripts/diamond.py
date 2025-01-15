@@ -87,6 +87,6 @@ if __name__ == '__main__':
     parser.add_argument("-p","--prefix",help="prefix of output",required=True)
     parser.add_argument("-o","--outdir",help="output directory",required=True)
     parser.add_argument("-d","--db",help="diamond database file,**.dmnd",required=True)
-    parser.add_argument("-t","--top",help="Output the top species,defalut 10",default=10,type=int)
+    parser.add_argument("-t","--top",help="Output the top species,defalut 5",default=5,type=int)
     args = parser.parse_args()
     run(args.pe1,args.pe2,args.prefix,args.outdir,args.db,args.top)
