@@ -15,9 +15,12 @@ export PATH=/opt/conda/envs/rgi/bin/:$PATH && bowtie2
 # bamtools 2.5.1
 /opt/conda/envs/rgi/bin/bamtools
 
-# diamond v0.8.36.98
- /opt/conda/envs/rgi/bin/diamond
- 
+# diamond 2.1.10
+ /opt/conda/bin/diamond
+
+# PEAR v0.9.6- Paired-End reAd mergeR
+/opt/conda/bin/pear
+
 # blast+ 2.16.0+
 /opt/conda/envs/rgi/bin/blastn
 /opt/conda/envs/rgi/bin/blastp
