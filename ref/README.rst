@@ -223,12 +223,12 @@ diamond ::
 
     mkdir reference/diamond
     wget https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/nr.gz
-    gunzip nr.gz
-    diamond makedb --in nr -d nr
+    wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz
+    tar xzvf taxdump.tar.gz
+    wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/prot.accession2taxid.gz
+    diamond makedb --in nr.gz -d reference --taxonmap prot.accession2taxid.gz --taxonnodes nodes.dmp --taxonnames names.dmp
 
-    diamond/
-    ├── nr
-    └── nr.dmnd
+    diamond/reference.dmnd
 
 megan6 ::
 
