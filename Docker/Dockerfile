@@ -8,11 +8,11 @@ RUN apk add --no-cache bash && mkdir -p /lib64/ /ref/ /script/ /raw_data/ /outdi
     /opt/conda/bin/conda install bioconda::diamond bioconda::pear && \
     /opt/conda/bin/mamba create --name rgi --channel conda-forge --channel bioconda --channel defaults rgi &&  \
     /opt/conda/bin/conda config --add channels ursky && \
-    /opt/conda/bin/mamba create -y --name metawrap --channel ursky --channel conda-forge --channel bioconda --channel defaults blas=2.5=mkl biopython metawrap-mg=1.3.2 checkm-genome drep && \
+    /opt/conda/bin/mamba create -y --name metawrap --channel ursky --channel conda-forge --channel bioconda --channel defaults blas=2.5=mkl biopython metawrap-mg=1.3.2 checkm-genome && \
     /opt/conda/bin/mamba create --name gtdbtk --channel conda-forge --channel bioconda --channel defaults gtdbtk && \
     /opt/conda/bin/mamba create --name metaphlan --channel conda-forge --channel bioconda --channel defaults metaphlan && \
     /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk && \
     /opt/conda/bin/conda install -n rgi --channel conda-forge --channel bioconda --channel defaults staramr cd-hit freebayes fastqtk seqtk bbmap fastp fastqc prinseq cutadapt multiqc trimmomatic  \
-    bcftools covtobed fastani megan coverm &&  \
+    bcftools covtobed fastani megan coverm drep &&  \
     /opt/conda/bin/conda clean -a -y && /opt/conda/bin/mamba clean -a -y
 ENV LD_LIBRARY_PATH=/lib/:/lib64/:$LD_LIBRARY_PATH
