@@ -12,7 +12,7 @@ RUN apk add --no-cache bash && mkdir -p /lib64/ /ref/ /script/ /raw_data/ /outdi
     --channel conda-forge --channel bioconda --channel defaults blas=2.5=mkl biopython metawrap-mg=1.3.2 checkm-genome && \
     /opt/conda/bin/mamba create --name gtdbtk --channel conda-forge --channel bioconda --channel defaults gtdbtk && \
     /opt/conda/bin/mamba create --name metaphlan --channel conda-forge --channel bioconda --channel defaults metaphlan && \
-    /opt/conda/bin/mamba run -n rgi mamba install --channel conda-forge --channel bioconda --channel defaults staramr  \
+    /opt/conda/bin/mamba run -n rgi install --channel conda-forge --channel bioconda --channel defaults staramr  \
     quast minimap2 megahit cd-hit spades freebayes fastqtk seqtk bbmap fastp fastqc prinseq cutadapt multiqc trimmomatic  \
     bcftools prokka covtobed fastani megan kraken2 krakentools krona bracken drep coverm taxonkit bioawk &&  \
     /opt/conda/bin/conda clean -a -y && /opt/conda/bin/mamba clean -a -y
