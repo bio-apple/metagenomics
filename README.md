@@ -52,6 +52,11 @@ wget http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/mpa_vJan25_CHO
 wget http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/bowtie2_indexes/mpa_vJan25_CHOCOPhlAnSGB_202503_bt2.tar
 tar xvf mpa_vJan25_CHOCOPhlAnSGB_202503.tar
 tar xvf mpa_vJan25_CHOCOPhlAnSGB_202503_bt2.tar
+
+################ VFDB
+mkdir -p /ref/VFDB
+wget https://www.mgc.ac.cn/VFs/Down/VFDB_setB_pro.fas.gz
+docker run -v /share/metagenomics/ref/VFDB/:/ref meta sh -c 'export PATH=/opt/conda/envs/rgi/bin:$PATH && cd /ref/ && makeblastdb -in VFDB_setB_pro.fas -dbtype prot -out VFDB_setB_pro'
 ```
 
 # Flowchart
