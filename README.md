@@ -40,6 +40,12 @@ docker run -v /staging/fanyucai/metagenomics/ref/:/ref/ meta staramr db build --
 ################CheckM2_database
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm2 database --download --path /ref/
 docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm 
+
+################metaphlan
+mkdir -p /ref/metaphlan
+cd /ref/metaphlan
+wget http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/mpa_vJan25_CHOCOPhlAnSGB_202503.tar
+wget http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/bowtie2_indexes/mpa_vJan25_CHOCOPhlAnSGB_202503_bt2.tar
 ```
 
 # Flowchart
