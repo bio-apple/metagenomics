@@ -24,7 +24,7 @@ if not os.path.exists(args.outdir):
     subprocess.check_call('mkdir -p %s'%(args.outdir),shell=True)
 ##############################################################################
 cmd=(f"docker run -v {in_dir}:/raw_data/ -v {args.outdir}:/outdir/ {docker} "
-     f"sh -c \'export PATH=/opt/conda/envs/rgi/bin/:$PATH && "
+     f"sh -c \'export PATH=/opt/conda/envs/metawrap/bin:$PATH && "
      f"metaspades.py --only-assembler --memory 500 "
      f"--threads 48 -1 /raw_data/{a} -2 /raw_data/{b} -o /outdir/spades_{args.prefix}/")
 cmd+=(f" && quast.py --plots-format png --min-contig 500 --no-html --no-icarus "
