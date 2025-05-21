@@ -63,7 +63,6 @@ docker run -v /share/metagenomics/ref/VFDB/:/ref meta sh -c 'export PATH=/opt/co
 ################GTDB-Tk reference data(https://ecogenomics.github.io/GTDBTk/installing/index.html#)
 mkdir -p /ref/gtdbtk
 wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release226/226.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r226_data.tar.gz
-
 ```
 
 # Flowchart
