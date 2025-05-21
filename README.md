@@ -41,9 +41,11 @@ docker run -v /ref/card:/ref/ meta sh -c 'cd /ref/ && /opt/conda/envs/rgi/bin/rg
 cd /ref/
 docker run -v /staging/fanyucai/metagenomics/ref/:/ref/ meta staramr db build --dir /ref/staramr/
 
-################CheckM2_database
-docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm2 database --download --path /ref/
-docker run -v /staging/fanyucai/metagenomics/ref:/ref meta /opt/conda/envs/checkm2/bin/checkm 
+################CheckM
+mkdir -p /ref/CheckM
+cd /ref/CheckM
+wget https://zenodo.org/records/7401545/files/checkm_data_2015_01_16.tar.gz
+tar xzvf checkm_data_2015_01_16.tar.gz
 
 ################metaphlan
 mkdir -p /ref/metaphlan
@@ -57,6 +59,11 @@ tar xvf mpa_vJan25_CHOCOPhlAnSGB_202503_bt2.tar
 mkdir -p /ref/VFDB
 wget https://www.mgc.ac.cn/VFs/Down/VFDB_setB_pro.fas.gz
 docker run -v /share/metagenomics/ref/VFDB/:/ref meta sh -c 'export PATH=/opt/conda/envs/rgi/bin:$PATH && cd /ref/ && makeblastdb -in VFDB_setB_pro.fas -dbtype prot -out VFDB_setB_pro'
+
+################GTDB-Tk reference data(https://ecogenomics.github.io/GTDBTk/installing/index.html#)
+mkdir -p /ref/gtdbtk
+wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release226/226.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r226_data.tar.gz
+
 ```
 
 # Flowchart
