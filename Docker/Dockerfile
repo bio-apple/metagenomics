@@ -14,6 +14,6 @@ RUN apk add --no-cache bash && mkdir -p /lib64/ /ref/ /script/ /raw_data/ /outdi
     /opt/conda/bin/mamba create --name metaphlan --channel conda-forge --channel bioconda --channel defaults metaphlan && \
     /opt/conda/bin/mamba run -n rgi mamba install --channel conda-forge --channel bioconda --channel defaults staramr  \
     quast minimap2 megahit cd-hit spades freebayes fastqtk seqtk bbmap fastp fastqc prinseq cutadapt multiqc trimmomatic  \
-    bcftools prokka covtobed fastani megan kraken2 krakentools krona bracken drep coverm &&  \
+    bcftools prokka covtobed fastani megan kraken2 krakentools krona bracken drep coverm taxonkit bioawk &&  \
     /opt/conda/bin/conda clean -a -y && /opt/conda/bin/mamba clean -a -y
 ENV LD_LIBRARY_PATH=/lib/:/lib64/:$LD_LIBRARY_PATH
