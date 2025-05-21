@@ -5,6 +5,10 @@ step1: build your own local Docker image based on the image file.
 cd Docker
 docker build -t meta ./
 ```
+or
+```{.cs}
+docker pull fanyucai1/meta:latest
+```
 
 step2: Download database
 ```{.cs}
