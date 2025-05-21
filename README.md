@@ -46,6 +46,8 @@ mkdir -p /ref/metaphlan
 cd /ref/metaphlan
 wget http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/mpa_vJan25_CHOCOPhlAnSGB_202503.tar
 wget http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/bowtie2_indexes/mpa_vJan25_CHOCOPhlAnSGB_202503_bt2.tar
+tar xvf mpa_vJan25_CHOCOPhlAnSGB_202503.tar
+tar xvf mpa_vJan25_CHOCOPhlAnSGB_202503_bt2.tar
 ```
 
 # Flowchart
