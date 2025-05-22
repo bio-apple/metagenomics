@@ -17,7 +17,7 @@ args.contig=os.path.abspath(args.contig)
 args.ref=os.path.abspath(args.ref)
 cmd=f'docker run -v {args.ref}:/ref -v {os.path.dirname(args.contig)}:/raw_data/ -v {args.outdir}:/outdir {docker}'
 cmd+=(f' sh -c \'rm -rf /outdir/{args.prefix}.AMR && '
-      f'export PATH=/opt/conda/envs/rgi/bin/:$PATH && '
+      f'export PATH=/opt/conda/envs/staramr/bin/:$PATH && '
       f'staramr search -d /ref/ -o /outdir/{args.prefix}.AMR /raw_data/{args.contig.split("/")[-1]}\'')
 print(cmd)
 subprocess.check_call(cmd,shell=True)
