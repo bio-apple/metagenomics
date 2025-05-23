@@ -14,7 +14,7 @@ def run(pe1,index,prefix,outdir,pe2=None,read_length=150):
         os.makedirs(outdir)
     a = pe1.split("/")[-1]
     cmd = ("docker run -v %s:/raw_data/ -v %s:/ref/ -v %s:/outdir/ %s "
-           "sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && kraken2 --confidence 0.8 --db /ref/ --threads 24 --output /outdir/%s.txt --minimum-base-quality 20 --report /outdir/%s.report.txt")%(in_dir,os.path.abspath(index),outdir,docker,prefix,prefix)
+           "sh -c \'export PATH=/opt/conda/envs/kraken2/bin/:$PATH && kraken2 --confidence 0.4 --db /ref/ --threads 24 --output /outdir/%s.txt --minimum-base-quality 20 --report /outdir/%s.report.txt")%(in_dir,os.path.abspath(index),outdir,docker,prefix,prefix)
     if pe2 is not None:
         pe2 = os.path.abspath(pe2)
         if in_dir != os.path.dirname(pe2):
