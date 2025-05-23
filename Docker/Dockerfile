@@ -12,7 +12,7 @@ RUN apk add --no-cache bash && mkdir -p /lib64/ /ref/ /script/ /raw_data/ /outdi
     /opt/conda/bin/mamba create --name gtdbtk --channel conda-forge --channel bioconda --channel defaults gtdbtk && \
     /opt/conda/bin/mamba create --name metaphlan --channel conda-forge --channel bioconda --channel defaults metaphlan && \
     /opt/conda/bin/mamba create --name staramr --channel conda-forge --channel bioconda --channel defaults staramr numpy==1.26.4 && \
-    /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk && \
+    /opt/conda/bin/mamba create --name kraken2 --channel conda-forge --channel bioconda --channel defaults kraken2 krakentools krona bracken taxonkit bioawk ncbi-datasets-cli entrez-direct && \
     /opt/conda/bin/conda install -n rgi --channel conda-forge --channel bioconda --channel defaults cd-hit freebayes fastqtk seqtk bbmap fastp fastqc prinseq cutadapt multiqc trimmomatic  \
     bcftools covtobed fastani megan coverm drep &&  \
     /opt/conda/bin/conda clean -a -y && /opt/conda/bin/mamba clean -a -y
