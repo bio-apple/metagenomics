@@ -3,7 +3,7 @@ import subprocess
 import argparse
 import json
 
-docker="meta:latest"
+docker="virus:latest"
 #     remove adaptors
 #     quality filtering of reads
 #     removal of low-quality reads(q < 20)
