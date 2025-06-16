@@ -8,6 +8,7 @@ docker build -t meta ./
 or
 ```{.cs}
 docker pull fanyucai1/meta:latest
+docker tag fanyucai1/meta:latest meta
 ```
 
 step2: Download database
