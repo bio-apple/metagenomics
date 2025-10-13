@@ -40,7 +40,7 @@ docker run -v /ref/card:/ref/ meta sh -c 'cd /ref/ && /opt/conda/envs/rgi/bin/rg
 
 ################staramr(https://github.com/phac-nml/staramr)
 cd /ref/
-docker run -v /staging/fanyucai/metagenomics/ref/:/ref/ meta staramr db build --dir /ref/staramr/
+docker run -v /staging/fanyucai/ref/:/ref/ meta sh -c 'export PATH=/opt/conda/envs/staramr/bin/:$PATH && staramr db build --dir /ref/staramr/'
 
 ################CheckM
 mkdir -p /ref/CheckM
